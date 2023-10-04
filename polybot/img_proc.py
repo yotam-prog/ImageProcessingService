@@ -1,3 +1,4 @@
+import random
 from pathlib import Path
 from matplotlib.image import imread, imsave
 
@@ -51,17 +52,36 @@ class Img:
             self.data[i] = res
 
     def rotate(self):
-        # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        height = len(self.data)
+        width = len(self.data[0])
+        rotated_data = [[0] * height for _ in range(width)]
+        for y in range(height):
+            for x in range(width):
+                rotated_data[x][y] = self.data[y][width - x - 1]
+        self.data = rotated_data
 
     def salt_n_pepper(self):
-        # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        height = len(self.data)
+        width = len(self.data[0])
+        for y in range(height):
+            for x in range(width):
+                random_value = random.random()
+                if random_value < 0.2:
+                    self.data[y][x] = 255  # Salt
+                elif random_value > 0.8:
+                    self.data[y][x] = 0    # Pepper
 
-    def concat(self, other_img, direction='horizontal'):
+    def concat(self, other_img):
         # TODO remove the `raise` below, and write your implementation
         raise NotImplementedError()
 
     def segment(self):
-        # TODO remove the `raise` below, and write your implementation
-        raise NotImplementedError()
+        height = len(self.data)
+        width = len(self.data[0])
+
+        for y in range(height):
+            for x in range(width):
+                if self.data[y][x] > 100:
+                    self.data[y][x] = 255
+                else:
+                    self.data[y][x] = 0
